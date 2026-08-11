@@ -581,7 +581,14 @@ def cmd_find(args):
 def build_parser():
     parser = argparse.ArgumentParser(
         prog="imdb-monkey",
+        usage=(
+            "imdb-monkey -h\n"
+            "       imdb-monkey login\n"
+            "       imdb-monkey [--state STATE] { remove | find } ...\n"
+            "       imdb-monkey [--state STATE] remove -f FILE"
+        ),
         description="Automate IMDB tasks using your own saved login session.",
+        epilog="Tip: 'remove -f FILE' removes a whole list of titles (one per line) in one run.",
     )
     parser.add_argument(
         "--state",
