@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Wrapper so you don't have to manually activate the venv. Creates .venv and
+# installs deps on first run, then execs imdb-monkey.py through it.
+set -euo pipefail
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV="$DIR/.venv"
+
+if [[ ! -x "$VENV/bin/python" ]]; then
+  echo "imdb-monkey: setting up .venv (first run)..." >&2
+  python3 -m venv "$VENV"
+  "$VENV/bin/pip" install -q -r "$DIR/requirements.txt"
+  "$VENV/bin/playwright" install chromium
+fi
+
+exec "$VENV/bin/python" "$DIR/imdb-monkey.py" "$@"

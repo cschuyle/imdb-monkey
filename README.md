@@ -8,30 +8,19 @@ The first automation finds a title by name (and optional year) and removes it fr
 
 ## Setup
 
-One-time install. Use a virtual environment so this stays isolated from your system Python
-(some installs, e.g. Homebrew Python, refuse a plain `pip install` without one):
+Run `./imdb-monkey` — it creates `.venv`, installs dependencies, and downloads Chromium for
+Playwright on first run, then execs the tool. No manual venv activation needed.
 
-```
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-playwright install chromium
-```
-
-`playwright install chromium` downloads the browser Playwright drives.
-
-In any new terminal, reactivate the environment before running the tool:
-
-```
-source .venv/bin/activate
-```
+(If you'd rather manage the venv yourself: `python3 -m venv .venv && source .venv/bin/activate
+&& pip install -r requirements.txt && playwright install chromium`, then run `./imdb-monkey.py`
+directly.)
 
 ## Usage
 
 ### 1. Log in (once)
 
 ```
-./imdb-monkey.py login
+./imdb-monkey login
 ```
 
 A browser window opens on imdb.com. Sign in manually (handle any Amazon login / 2FA / captcha
@@ -42,9 +31,9 @@ yourself), then return to the terminal and press Enter. Your session is saved to
 Type the title as plain words. Quotes are optional.
 
 ```
-./imdb-monkey.py remove Inception 2010
-./imdb-monkey.py remove The Beatles: Get Back
-./imdb-monkey.py remove Blade Runner (1982)
+./imdb-monkey remove Inception 2010
+./imdb-monkey remove The Beatles: Get Back
+./imdb-monkey remove Blade Runner (1982)
 ```
 
 The title page opens and you are asked to confirm before anything is removed:
@@ -54,7 +43,7 @@ other than `y`/`yes`) cancels without changing your Watchlist.
 Preview without even reaching the prompt:
 
 ```
-./imdb-monkey.py remove The Beatles: Get Back --dry-run
+./imdb-monkey remove The Beatles: Get Back --dry-run
 ```
 
 A trailing 4-digit number (either `2010` or `(2010)`) is treated as a *possible* release
@@ -77,8 +66,8 @@ Opens the matched title's page in a visible browser and keeps the window open un
 Enter in the terminal. Same query rules as `remove`. Makes no changes.
 
 ```
-./imdb-monkey.py find Blade Runner 2049
-./imdb-monkey.py find Inception 2010
+./imdb-monkey find Blade Runner 2049
+./imdb-monkey find Inception 2010
 ```
 
 Uses your saved session if `state.json` exists (so you can see your Watchlist state); otherwise
